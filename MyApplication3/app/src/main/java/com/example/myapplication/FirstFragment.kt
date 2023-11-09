@@ -18,6 +18,7 @@ class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val viewModel: LucidPhotosViewModel by viewModels()
+   val adapter = LucidPhotosAdapter()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -35,10 +36,12 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.photos.adapter = adapter
+
         viewModel.photos.observe(viewLifecycleOwner, Observer {
             when(it) {
                 is Result.Success -> {
-                    binding.photos.adapter = LucidPhotosAdapter(it.data)
+                    adapter.setData(it.data)
                 }
                 is Result.Error -> {
 

@@ -6,9 +6,10 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class LucidPhotosRepository {
-    private val apiService  = retrofit.create(LucidApi::class.java)
+    private val apiService = retrofit.create(LucidApi::class.java)
 
-    suspend fun getPhotos() : Flow<List<Photos>> = flow {
+    suspend fun getPhotos(): Flow<List<Photos>> = flow {
         emit(apiService.getPhotos())
-    }. flowOn(IO)
+    }.flowOn(IO)
+
 }

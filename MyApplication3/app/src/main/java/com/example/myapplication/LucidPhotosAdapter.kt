@@ -3,15 +3,24 @@ package com.example.myapplication
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.myapplication.databinding.ItemPhotoBinding
 
-class LucidPhotosAdapter(private val data : List<Photos>) : RecyclerView.Adapter<LucidPhotosAdapter.MyPhotosViewHolder>(){
+class LucidPhotosAdapter : RecyclerView.Adapter<LucidPhotosAdapter.MyPhotosViewHolder>() {
+    private var photos: List<Photos> = mutableListOf()
 
-    class MyPhotosViewHolder(private val binding: ItemPhotoBinding)  : RecyclerView.ViewHolder(binding.root){
-        fun bind(item : Photos) {
+    class MyPhotosViewHolder(private val binding: ItemPhotoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Photos) {
             binding.photoId.text = item.id.toString()
             binding.photoName.text = item.title
+            binding.photo.load(item.thumbnailUrl)
         }
+    }
+
+    fun setData(data: List<Photos>) {
+        photos = data
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPhotosViewHolder {
@@ -20,10 +29,10 @@ class LucidPhotosAdapter(private val data : List<Photos>) : RecyclerView.Adapter
         return MyPhotosViewHolder(view)
     }
 
-    override fun getItemCount() = data.size
+    override fun getItemCount() = photos.size
 
     override fun onBindViewHolder(holder: MyPhotosViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(photos[position])
     }
 
 }
